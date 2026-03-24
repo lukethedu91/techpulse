@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Run a Local AI on Your Laptop — TechPulse</title>
+  <meta name="description" content="A practical guide to running LLaMA, Mistral, and other open models locally using Ollama or LM Studio — no cloud, no subscriptions, no data leaving your machine.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#1a1714;--ink-2:#3d3830;--ink-3:#6b6358;--paper:#faf8f4;--paper-2:#f2ede5;--paper-3:#e8e0d3;--accent:#c0392b;--gold:#d4a017;--rule:#d5cbbf;--ff-head:'Playfair Display',Georgia,serif;--ff-body:'Source Serif 4',Georgia,serif;--ff-mono:'JetBrains Mono',monospace;--max:1180px;--col-main:680px}
+    html{font-size:18px;scroll-behavior:smooth}
+    body{font-family:var(--ff-body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .masthead{background:var(--ink);color:var(--paper);text-align:center;padding:1.5rem 1rem;border-bottom:4px solid var(--accent)}
+    .masthead-title{font-family:var(--ff-head);font-size:2.2rem;font-weight:900;letter-spacing:-.02em}
+    .masthead-title span{color:var(--accent)}
+    nav{background:var(--paper-2);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}
+    .nav-inner{max-width:var(--max);margin:0 auto;display:flex;overflow-x:auto}
+    nav a{font-family:var(--ff-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.3rem;color:var(--ink-2);border-right:1px solid var(--rule);white-space:nowrap;transition:background .15s,color .15s}
+    nav a:hover{background:var(--accent);color:#fff}
+    .ad-banner{background:var(--paper-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);text-align:center;padding:1rem;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.1em;color:var(--ink-3)}
+    .ad-unit{display:inline-block;min-width:728px;min-height:90px;background:var(--paper-3);border:1px dashed var(--rule);line-height:90px;color:var(--ink-3)}
+    @media(max-width:780px){.ad-unit{min-width:320px;min-height:50px;line-height:50px}}
+    .page-wrap{max-width:var(--max);margin:0 auto;padding:2.5rem 1rem;display:grid;grid-template-columns:minmax(0,var(--col-main)) 1fr;gap:3rem;align-items:start}
+    @media(max-width:860px){.page-wrap{grid-template-columns:1fr}}
+    .label{display:inline-block;font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#fff;padding:.2rem .6rem;margin-bottom:.8rem}
+    .label.how-to{background:#1a6b4a}
+    .byline{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.5rem}
+    .byline strong{color:var(--ink-2)}
+    h1{font-family:var(--ff-head);font-size:clamp(1.9rem,4.5vw,3rem);font-weight:900;line-height:1.15;letter-spacing:-.025em;margin:.5rem 0 .8rem}
+    .deck{font-size:1.05rem;font-style:italic;color:var(--ink-2);margin-bottom:1.4rem;line-height:1.6;border-left:3px solid var(--accent);padding-left:1rem}
+    .body-text{font-size:1rem;line-height:1.85;color:var(--ink-2)}
+    .body-text p{margin-bottom:1.3rem}
+    .body-text h2{font-family:var(--ff-head);font-size:1.4rem;font-weight:700;color:var(--ink);margin:2.2rem 0 .7rem}
+    .body-text h3{font-family:var(--ff-head);font-size:1.1rem;font-weight:700;color:var(--ink);margin:1.8rem 0 .5rem}
+    .body-text code{font-family:var(--ff-mono);font-size:.8em;background:var(--paper-2);padding:.15em .35em;border-radius:2px;border:1px solid var(--rule)}
+    .body-text pre{font-family:var(--ff-mono);font-size:.8rem;background:var(--ink);color:#c8c0b8;padding:1.2rem;overflow-x:auto;margin:1.2rem 0;line-height:1.65}
+    .body-text ul,.body-text ol{margin:0 0 1.3rem 1.5rem}
+    .body-text li{margin-bottom:.4rem}
+    .body-text blockquote{border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0;font-style:italic;color:var(--ink-2)}
+    .body-text strong{color:var(--ink)}
+    .pull-quote{font-family:var(--ff-head);font-size:1.5rem;font-weight:700;line-height:1.3;color:var(--ink);border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);padding:1rem 0;margin:2rem 0}
+    .in-article-ad{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);text-align:center;padding:1rem;margin:2rem 0}
+    .ad-label{font-family:var(--ff-mono);font-size:.55rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;display:block;margin-bottom:.4rem}
+    .in-article-ad-unit{display:inline-block;min-width:336px;min-height:280px;background:var(--paper-2);border:1px dashed var(--rule);line-height:280px;font-family:var(--ff-mono);font-size:.6rem;color:var(--ink-3);max-width:100%}
+    .sidebar-ad{background:var(--paper-2);border:1px solid var(--rule);padding:1rem;text-align:center;margin-bottom:2rem}
+    .sidebar-ad-unit{min-width:300px;min-height:250px;background:var(--paper-3);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.6rem;color:var(--ink-3)}
+    .sidebar-widget{margin-bottom:2rem}
+    .sidebar-widget h3{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding-bottom:.5rem;border-bottom:2px solid var(--ink);margin-bottom:1rem}
+    .related-list{list-style:none}
+    .related-list li{padding:.65rem 0;border-bottom:1px solid var(--rule);font-size:.88rem;line-height:1.4}
+    .related-list a:hover{color:var(--accent)}
+    .tag{display:inline-block;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);padding:.15rem .5rem;margin:.2rem .2rem .2rem 0;color:var(--ink-3)}
+    footer{background:var(--ink);color:#8a8075;text-align:center;padding:2rem 1rem;font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;border-top:4px solid var(--accent)}
+    footer a{color:#b0a89e}
+    .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+    .back-home{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--rule);padding:.5rem 1rem;margin-bottom:1.5rem;transition:background .15s,color .15s}
+    .back-home:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .specs-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.88rem}
+    .specs-table th{font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .8rem;background:var(--ink);color:var(--paper)}
+    .specs-table td{padding:.6rem .8rem;border-bottom:1px solid var(--rule)}
+    .specs-table tr:nth-child(even) td{background:var(--paper-2)}
+  </style>
+</head>
+<body>
+<header class="masthead">
+  <a href="../index.html"><div class="masthead-title">Tech<span>Pulse</span></div></a>
+</header>
+<nav><div class="nav-inner">
+  <a href="../index.html">Home</a>
+  <a href="#">AI & Machine Learning</a>
+  <a href="#" style="background:var(--accent);color:#fff">How-To Guides</a>
+  <a href="#">Cybersecurity</a>
+  <a href="#">Gadgets</a>
+  <a href="#">Developer Tools</a>
+</div></nav>
+<div class="ad-banner"><div class="ad-unit">Advertisement · 728×90</div></div>
+<main class="page-wrap">
+<article>
+  <a href="../index.html" class="back-home">← Back to Home</a>
+  <span class="label how-to">How-To Guide</span>
+  <h1>How to Run a Local AI on Your Laptop (And Why You Should)</h1>
+  <p class="deck">Cloud AI is convenient until it isn't — outages, rate limits, privacy concerns, and subscription creep add up. Running a model locally takes about 20 minutes and gives you something surprisingly capable that works offline, costs nothing per query, and never phones home.</p>
+  <div class="byline">By <strong>Staff Writer</strong> &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 9 min read</div>
+
+  <div class="body-text">
+    <p>A year ago, running a large language model on your own machine was a project for people who liked compiling things from source and troubleshooting CUDA errors at midnight. That's changed. The tooling has gotten genuinely good, the models have gotten smaller without getting dumber, and if you have a reasonably modern laptop, you can have something running in under half an hour.</p>
+
+    <p>This guide covers two main tools — Ollama and LM Studio — and explains which models are actually worth running. I'll also tell you the truth about where local models still fall short, because it'd be dishonest not to.</p>
+
+    <h2>What You Actually Need</h2>
+
+    <p>The biggest limiting factor is RAM, not your CPU or even a discrete GPU. Models load entirely into memory when they run, and a 7-billion-parameter model in 4-bit quantization needs around 4–5 GB of RAM to run comfortably. An 8 GB laptop will work but feel sluggish if you have other things open. 16 GB is the sweet spot for everyday use. 32 GB opens up the more capable 13B and 14B models.</p>
+
+    <p>If you have a Mac with Apple Silicon — M1, M2, M3, or M4 — you're in an unusually good position. Unified memory means the model runs partly on the GPU automatically, and the performance on even a base M2 MacBook Air is noticeably better than an Intel machine with twice the RAM.</p>
+
+    <p>On Windows or Linux with an Nvidia GPU, things get more interesting. A 3060 with 12 GB of VRAM will run most 7B models faster than any CPU. A 4090 can handle 70B models. But GPU acceleration on local AI tools has historically been finicky — it's gotten better, but plan for some configuration.</p>
+
+    <table class="specs-table">
+      <thead><tr><th>Machine</th><th>Comfortable Model Size</th><th>Speed (tokens/sec approx)</th></tr></thead>
+      <tbody>
+        <tr><td>MacBook Air M2 (8 GB)</td><td>7B models</td><td>20–30 t/s</td></tr>
+        <tr><td>MacBook Pro M3 Pro (18 GB)</td><td>13B models</td><td>30–45 t/s</td></tr>
+        <tr><td>Windows, 16 GB RAM, no discrete GPU</td><td>7B models</td><td>8–15 t/s</td></tr>
+        <tr><td>Windows, 16 GB RAM + RTX 3060 12 GB</td><td>7B–13B models</td><td>40–80 t/s</td></tr>
+        <tr><td>Linux, 64 GB RAM + RTX 4090 24 GB</td><td>Up to 34B</td><td>60–120 t/s</td></tr>
+      </tbody>
+    </table>
+
+    <p>Token-per-second numbers matter because they determine how natural the experience feels. Under 10 t/s and you're waiting. Above 20 t/s and it feels reasonably responsive. Above 40 and it starts to feel fast.</p>
+
+    <h2>Option 1: Ollama (Best for Developers and the Command Line)</h2>
+
+    <p>Ollama is a command-line tool that handles downloading, managing, and running models with a single command. It runs as a local server, which means you can also call it from other applications — there are integrations for VS Code, Obsidian, and a dozen other tools.</p>
+
+    <p>Install it from <strong>ollama.com</strong>. On Mac, it's a standard .dmg. On Linux, it's one curl command:</p>
+
+    <pre>curl -fsSL https://ollama.com/install.sh | sh</pre>
+
+    <p>Once installed, pull a model. For a first run, start with Mistral 7B or LLaMA 3.2 3B if you're on a lower-spec machine:</p>
+
+    <pre>ollama pull mistral
+ollama run mistral</pre>
+
+    <p>That's it. You're now running a local model. The download is about 4 GB. Type your prompt and hit enter.</p>
+
+    <p>For something more capable and still manageable on 16 GB of RAM, try <code>phi4</code> (Microsoft's 14B model, surprisingly strong for its size) or <code>llama3.2</code>:</p>
+
+    <pre>ollama pull phi4
+ollama run phi4</pre>
+
+    <p>Ollama also runs a local API server on port 11434, which means you can point any OpenAI-compatible application at it. A lot of people use this to run local AI inside their code editor or note-taking app without the model ever knowing.</p>
+
+    <h2>Option 2: LM Studio (Best for Non-Technical Users)</h2>
+
+    <p>LM Studio is a desktop application with an actual GUI. You open it, search for models by name, download them with a button click, and chat with them in an interface that looks like a normal messaging app. It's the friendliest option for people who don't want to use a terminal.</p>
+
+    <p>Download it from <strong>lmstudio.ai</strong>. It's free. On first launch, go to the Discover tab and search for "mistral" or "llama" — you'll see a list of available models with their sizes. The ones marked Q4_K_M are good general-purpose quantizations that balance quality and RAM usage.</p>
+
+    <p>LM Studio also has a local server mode that mimics the OpenAI API, so if you've written any code that calls OpenAI, you can point it at LM Studio with a one-line change and run it completely locally.</p>
+
+    <div class="pull-quote">"Once you've run a 7B model locally and it just works, you start questioning why you're paying $20 a month for the cloud version."</div>
+
+    <h2>Which Model Should You Actually Use?</h2>
+
+    <p>This changes every few months as new models drop, but as of early 2026, here's what I'd actually recommend:</p>
+
+    <ul>
+      <li><strong>For general chat and writing:</strong> Mistral 7B Instruct or LLaMA 3.1 8B. Both are fast, capable, and fit on anything.</li>
+      <li><strong>For coding:</strong> DeepSeek Coder V2 or Qwen2.5-Coder. These are specifically trained on code and genuinely useful for autocomplete and debugging.</li>
+      <li><strong>For reasoning and longer tasks:</strong> Phi-4 (14B) if you have the RAM. It punches well above its weight on multi-step problems.</li>
+      <li><strong>For privacy-sensitive tasks:</strong> Any of the above — the whole point is nothing leaves your machine.</li>
+    </ul>
+
+    <h2>Where Local Models Still Fall Short</h2>
+
+    <p>I want to be direct about this: a local 7B model is not GPT-4. It gets confused on complex multi-step reasoning, it makes things up with more confidence, and its knowledge cuts off at whenever the training data was collected.</p>
+
+    <p>It also can't browse the web, it doesn't have vision unless you specifically pick a multimodal model, and it won't magically know anything about your local files unless you set up a retrieval pipeline (that's a whole other guide).</p>
+
+    <p>Where it earns its keep: drafting, editing, summarizing, brainstorming, explaining code, writing simple scripts, and anything where you'd otherwise paste sensitive data into a third-party chat window. For those use cases, a local model is often genuinely preferable — not just cheaper, but better, because you can be more specific about what you share.</p>
+  </div>
+
+  <div class="in-article-ad">
+    <span class="ad-label">Advertisement</span>
+    <div class="in-article-ad-unit">336×280 In-Article Ad</div>
+  </div>
+
+  <div class="body-text">
+    <h2>Running It as an API for Other Apps</h2>
+
+    <p>If you want to use your local model inside other applications, the simplest approach is Ollama's built-in server. Once Ollama is running, it's already listening on <code>http://localhost:11434</code>. Many tools have settings for a "custom OpenAI API base URL" — just point them there.</p>
+
+    <p>For Python scripts, install the <code>ollama</code> library and you can call the model like this:</p>
+
+    <pre>import ollama
+
+response = ollama.chat(
+    model='mistral',
+    messages=[{'role': 'user', 'content': 'Explain async/await in Python'}]
+)
+print(response['message']['content'])</pre>
+
+    <p>That's the entire thing. No API key, no rate limits, no cost per token. It runs on whatever you already have.</p>
+
+    <h2>One More Thing: Open WebUI</h2>
+
+    <p>If you want a proper chat interface that runs in your browser — similar to ChatGPT but local — install Open WebUI. It connects to your Ollama backend and gives you conversation history, model switching, and a much better UX than the terminal.</p>
+
+    <p>Install it with Docker (assuming you have Docker running):</p>
+
+    <pre>docker run -d -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -v open-webui:/app/backend/data \
+  --name open-webui \
+  ghcr.io/open-webui/open-webui:main</pre>
+
+    <p>Then open <code>http://localhost:3000</code> in your browser. It looks and feels like a polished product, because at this point it basically is one.</p>
+
+    <p>The local AI setup story in 2026 is genuinely different from even 18 months ago. It's not a perfect replacement for cloud models on hard tasks, but for everyday use, drafting, and anything privacy-sensitive, it's hard to argue with something that runs on your own hardware, works offline, and costs nothing after the initial setup.</p>
+  </div>
+
+  <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule)">
+    <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.8rem">Tags</div>
+    <span class="tag">AI</span><span class="tag">Local AI</span><span class="tag">Ollama</span><span class="tag">LM Studio</span><span class="tag">How-To</span><span class="tag">Privacy</span>
+  </div>
+</article>
+
+<aside>
+  <div class="sidebar-ad"><div class="ad-label">Advertisement</div><div class="sidebar-ad-unit">300×250</div></div>
+  <div class="sidebar-widget">
+    <h3>Related Articles</h3>
+    <ul class="related-list">
+      <li><a href="passkeys.html">The End of the Password Era: Passkeys Just Hit Critical Mass</a></li>
+      <li><a href="open-source-ai.html">The Open-Source AI Race Nobody Is Covering</a></li>
+      <li><a href="tailscale-vpn.html">Set Up a Tailscale VPN in 10 Minutes</a></li>
+      <li><a href="rust-2026.html">Why Every Developer Should Learn Rust in 2026</a></li>
+      <li><a href="chrome-ram.html">How to Stop Chrome from Eating Your RAM</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-ad" style="margin-top:1rem"><div class="ad-label">Advertisement</div><div class="sidebar-ad-unit" style="min-height:600px">300×600</div></div>
+</aside>
+</main>
+<footer>
+  <div class="footer-links"><a href="#">About</a><a href="#">Privacy Policy</a><a href="#">Advertise</a><a href="#">Contact</a></div>
+  <p>© 2026 TechPulse. All rights reserved.</p>
+</footer>
+</body>
+</html>

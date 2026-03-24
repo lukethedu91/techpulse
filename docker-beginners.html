@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker for Beginners: What It Is and Why Developers Love It — TechPulse</title>
+  <meta name="description" content="Docker solves the 'it works on my machine' problem. Here's a plain-English explanation of containers and a practical getting-started guide.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}:root{--ink:#1a1714;--ink-2:#3d3830;--ink-3:#6b6358;--paper:#faf8f4;--paper-2:#f2ede5;--paper-3:#e8e0d3;--accent:#c0392b;--gold:#d4a017;--rule:#d5cbbf;--ff-head:'Playfair Display',Georgia,serif;--ff-body:'Source Serif 4',Georgia,serif;--ff-mono:'JetBrains Mono',monospace;--max:1180px;--col-main:680px}html{font-size:18px;scroll-behavior:smooth}body{font-family:var(--ff-body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.masthead{background:var(--ink);color:var(--paper);text-align:center;padding:1.5rem 1rem;border-bottom:4px solid var(--accent)}.masthead-title{font-family:var(--ff-head);font-size:2.2rem;font-weight:900;letter-spacing:-.02em}.masthead-title span{color:var(--accent)}nav{background:var(--paper-2);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:100}.nav-inner{max-width:var(--max);margin:0 auto;display:flex;overflow-x:auto}nav a{font-family:var(--ff-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.3rem;color:var(--ink-2);border-right:1px solid var(--rule);white-space:nowrap;transition:background .15s,color .15s}nav a:hover{background:var(--accent);color:#fff}.ad-banner{background:var(--paper-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);text-align:center;padding:1rem;font-family:var(--ff-mono);font-size:.58rem;color:var(--ink-3)}.ad-unit{display:inline-block;min-width:728px;min-height:90px;background:var(--paper-3);border:1px dashed var(--rule);line-height:90px;color:var(--ink-3)}@media(max-width:780px){.ad-unit{min-width:320px;min-height:50px;line-height:50px}}.page-wrap{max-width:var(--max);margin:0 auto;padding:2.5rem 1rem;display:grid;grid-template-columns:minmax(0,var(--col-main)) 1fr;gap:3rem;align-items:start}@media(max-width:860px){.page-wrap{grid-template-columns:1fr}}.label{display:inline-block;font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#fff;padding:.2rem .6rem;margin-bottom:.8rem}.label.how-to{background:#1a6b4a}.label.opinion{background:#1a5080}.label.feature{background:var(--gold);color:var(--ink)}.byline{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.5rem}.byline strong{color:var(--ink-2)}h1{font-family:var(--ff-head);font-size:clamp(1.9rem,4.5vw,3rem);font-weight:900;line-height:1.15;letter-spacing:-.025em;margin:.5rem 0 .8rem}.deck{font-size:1.05rem;font-style:italic;color:var(--ink-2);margin-bottom:1.4rem;line-height:1.6;border-left:3px solid var(--accent);padding-left:1rem}.body-text{font-size:1rem;line-height:1.85;color:var(--ink-2)}.body-text p{margin-bottom:1.3rem}.body-text h2{font-family:var(--ff-head);font-size:1.4rem;font-weight:700;color:var(--ink);margin:2.2rem 0 .7rem}.body-text h3{font-family:var(--ff-head);font-size:1.1rem;font-weight:700;color:var(--ink);margin:1.8rem 0 .5rem}.body-text code{font-family:var(--ff-mono);font-size:.8em;background:var(--paper-2);padding:.15em .35em;border-radius:2px;border:1px solid var(--rule)}.body-text pre{font-family:var(--ff-mono);font-size:.8rem;background:var(--ink);color:#c8c0b8;padding:1.2rem;overflow-x:auto;margin:1.2rem 0;line-height:1.65}.body-text ul,.body-text ol{margin:0 0 1.3rem 1.5rem}.body-text li{margin-bottom:.4rem}.body-text blockquote{border-left:3px solid var(--gold);padding-left:1.2rem;margin:1.5rem 0;font-style:italic;color:var(--ink-2)}.body-text strong{color:var(--ink)}.pull-quote{font-family:var(--ff-head);font-size:1.5rem;font-weight:700;line-height:1.3;color:var(--ink);border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);padding:1rem 0;margin:2rem 0}.in-article-ad{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);text-align:center;padding:1rem;margin:2rem 0}.ad-label{font-family:var(--ff-mono);font-size:.55rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;display:block;margin-bottom:.4rem}.in-article-ad-unit{display:inline-block;min-width:336px;min-height:280px;background:var(--paper-2);border:1px dashed var(--rule);line-height:280px;font-family:var(--ff-mono);font-size:.6rem;color:var(--ink-3);max-width:100%}.sidebar-ad{background:var(--paper-2);border:1px solid var(--rule);padding:1rem;text-align:center;margin-bottom:2rem}.sidebar-ad-unit{min-width:300px;min-height:250px;background:var(--paper-3);border:1px dashed var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:.6rem;color:var(--ink-3)}.sidebar-widget{margin-bottom:2rem}.sidebar-widget h3{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding-bottom:.5rem;border-bottom:2px solid var(--ink);margin-bottom:1rem}.related-list{list-style:none}.related-list li{padding:.65rem 0;border-bottom:1px solid var(--rule);font-size:.88rem;line-height:1.4}.related-list a:hover{color:var(--accent)}.tag{display:inline-block;font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);padding:.15rem .5rem;margin:.2rem .2rem .2rem 0;color:var(--ink-3)}footer{background:var(--ink);color:#8a8075;text-align:center;padding:2rem 1rem;font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;border-top:4px solid var(--accent)}footer a{color:#b0a89e}.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}.back-home{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--rule);padding:.5rem 1rem;margin-bottom:1.5rem;transition:background .15s,color .15s}.back-home:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}</style>
+</head>
+<body>
+<header class="masthead"><a href="../index.html"><div class="masthead-title">Tech<span>Pulse</span></div></a></header>
+<nav><div class="nav-inner"><a href="../index.html">Home</a><a href="#">AI &amp; ML</a><a href="#">How-To Guides</a><a href="#">Cybersecurity</a><a href="#">Gadgets</a><a href="#">Developer Tools</a><a href="#">Opinion</a></div></nav>
+<div class="ad-banner"><div class="ad-unit">Advertisement · 728×90</div></div>
+<main class="page-wrap">
+<article>
+  <a href="../index.html" class="back-home">← Back to Home</a>
+  <span class="label how-to">How-To Guide</span>
+  <h1>Docker for Beginners: What It Is and Why Developers Love It</h1>
+  <p class="deck">Containers are the reason modern software can be deployed in minutes and run identically everywhere. If you've heard of Docker but never quite got it, this is the guide.</p>
+  <div class="byline">By <strong>Staff Writer</strong> &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 8 min read</div>
+  <div class="body-text"><p>At some point every developer has said "it works on my machine" with that specific mix of frustration and defensiveness. It works on your machine because your machine has the exact version of Node you installed eight months ago, the exact system library version that your dependency subtly requires, the exact environment variable set in your profile that you forgot about. None of that is on the server.</p>
+<p>Docker's core insight is that the "machine" context — the OS libraries, the runtime versions, the filesystem structure your code expects — should be packaged with the code, not assumed from the environment. A container is that package: your application plus everything it needs to run, in a portable unit that runs identically on your laptop, a CI server, and a production machine.</p>
+
+<h2>The Core Concepts</h2>
+<p>Three things to understand:</p>
+<p><strong>Image</strong>: A read-only template. An image for a Python web app might contain Ubuntu, Python 3.12, your pip dependencies, and your code. Images are built from a Dockerfile and can be stored in a registry (Docker Hub, GitHub Container Registry, etc.).</p>
+<p><strong>Container</strong>: A running instance of an image. You can run multiple containers from the same image. Each container is isolated — it has its own filesystem, its own network interface, its own process space.</p>
+<p><strong>Dockerfile</strong>: A text file with instructions for building an image. It starts from a base image (usually a minimal OS or language runtime) and adds layers — install dependencies, copy code, set the startup command.</p>
+<p>A simple Python app Dockerfile:</p>
+<pre>FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]</pre>
+<p>Build it with <code>docker build -t my-app .</code> and run it with <code>docker run -p 8000:8000 my-app</code>. The <code>-p</code> flag maps port 8000 on your machine to port 8000 inside the container.</p>
+
+<h2>Why This Matters in Practice</h2>
+<p>The obvious use case is deployment consistency. Build the image once in CI, push it to a registry, pull and run it on any server. The container is identical to what passed tests.</p>
+<p>The less obvious use case is local development environments. Instead of installing MySQL, Redis, and a specific version of Node globally on your machine (and then having conflicts when another project needs different versions), you define them in a <code>docker-compose.yml</code> and spin them up for each project independently:</p>
+<pre>services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: localdev
+  redis:
+    image: redis:7-alpine
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis</pre>
+<p>Run <code>docker compose up</code> and you have a fully running local stack. Run <code>docker compose down</code> and it disappears cleanly. Switch to a different project with different versions of everything — same workflow, no conflicts.</p>
+
+<h2>The Overhead Question</h2>
+<p>Containers are not virtual machines. A VM emulates hardware and runs a full OS — heavy, slow to start, meaningful memory overhead. A container shares the host OS kernel and only adds the application's dependencies on top. Starting a container typically takes under a second. Memory overhead is the actual memory your application uses, not a separate OS instance.</p>
+<p>On Linux, containers run natively. On Mac and Windows, Docker Desktop runs a lightweight Linux VM in the background — there's a small overhead, but nothing like running a full VM for each container.</p>
+
+<div class="pull-quote">"The container doesn't care that your staging server has a different Node version than prod. It brought its own."</div>
+
+<h2>Docker Hub and Images</h2>
+<p>Docker Hub (hub.docker.com) hosts public images for almost every piece of software you'd want to run: <code>nginx</code>, <code>postgres</code>, <code>redis</code>, <code>mysql</code>, <code>node</code>, <code>python</code>, official images for every major database and language runtime. You can use these as base images in your Dockerfile or run them directly.</p>
+<p>Running a temporary PostgreSQL database for local testing:</p>
+<pre>docker run --rm -e POSTGRES_PASSWORD=test -p 5432:5432 postgres:16</pre>
+<p>The <code>--rm</code> flag removes the container when you stop it. Useful for throwaway test environments you don't want lingering around.</p>
+
+<h2>What to Learn Next</h2>
+<p>Once you're comfortable with basic container management: Docker Compose for multi-container setups (covered above), then volumes for persistent data (so your database survives container restarts), then Docker networking for more complex service communication. Kubernetes is the orchestration layer beyond that, but it's a significant complexity jump — most small-to-medium projects don't need it and are better served by Docker Compose or a simple managed container service.</div>
+  <div class="in-article-ad"><span class="ad-label">Advertisement</span><div class="in-article-ad-unit">336×280 In-Article Ad</div></div>
+  <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule)">
+    <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.8rem">Tags</div>
+    <span class="tag">Technology</span><span class="tag">TechPulse</span>
+  </div>
+</article>
+<aside>
+  <div class="sidebar-ad"><div class="ad-label">Advertisement</div><div class="sidebar-ad-unit">300×250</div></div>
+  <div class="sidebar-widget"><h3>Related Articles</h3><ul class="related-list">
+    <li><a href="local-ai-laptop.html">Run a Local AI on Your Laptop</a></li>
+    <li><a href="passkeys.html">The End of the Password Era</a></li>
+    <li><a href="tailscale-vpn.html">Set Up Tailscale in 10 Minutes</a></li>
+    <li><a href="homelab-beginners.html">Your First Homelab</a></li>
+    <li><a href="home-assistant-guide.html">Home Assistant Guide</a></li>
+  </ul></div>
+  <div class="sidebar-ad" style="margin-top:1rem"><div class="ad-label">Advertisement</div><div class="sidebar-ad-unit" style="min-height:600px">300×600</div></div>
+</aside>
+</main>
+<footer><div class="footer-links"><a href="#">About</a><a href="#">Privacy Policy</a><a href="#">Advertise</a><a href="#">Contact</a></div><p>© 2026 TechPulse. All rights reserved.</p></footer>
+</body>
+</html>
