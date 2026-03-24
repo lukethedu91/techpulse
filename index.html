@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechPulse — Tech News & How-Tos for the Curious Mind</title>
+  <meta name="description" content="The latest tech news, tutorials, and how-to guides. Passkeys, local AI, self-hosting, Linux, security, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       GOOGLE ADSENSE — uncomment after approval
+       Replace ca-pub-XXXXXXXXXXXXXXXX with your Publisher ID
+       ═══════════════════════════════════════════════════════════ -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #1a1714; --ink-2: #3d3830; --ink-3: #6b6358;
+      --paper: #faf8f4; --paper-2: #f2ede5; --paper-3: #e8e0d3;
+      --accent: #c0392b; --accent-2: #922b21; --gold: #d4a017; --rule: #d5cbbf;
+      --ff-head: 'Playfair Display', Georgia, serif;
+      --ff-body: 'Source Serif 4', Georgia, serif;
+      --ff-mono: 'JetBrains Mono', monospace;
+      --max: 1180px; --col-main: 700px;
+    }
+    html { font-size: 18px; scroll-behavior: smooth; }
+    body { font-family: var(--ff-body); background: var(--paper); color: var(--ink); line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── MASTHEAD ── */
+    .masthead { background: var(--ink); color: var(--paper); text-align: center; padding: 2.5rem 1rem 1.75rem; border-bottom: 4px solid var(--accent); }
+    .masthead-kicker { font-family: var(--ff-mono); font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: .6rem; }
+    .masthead-title { font-family: var(--ff-head); font-size: clamp(2.8rem, 7vw, 5.2rem); font-weight: 900; letter-spacing: -.02em; line-height: 1; color: var(--paper); }
+    .masthead-title span { color: var(--accent); }
+    .masthead-tagline { font-family: var(--ff-body); font-style: italic; font-size: .92rem; color: #a09890; margin-top: .75rem; }
+    .masthead-date { font-family: var(--ff-mono); font-size: .58rem; letter-spacing: .15em; color: #4d4540; margin-top: 1.2rem; text-transform: uppercase; }
+
+    /* ── NAV ── */
+    nav { background: var(--paper-2); border-bottom: 1px solid var(--rule); position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: var(--max); margin: 0 auto; display: flex; overflow-x: auto; }
+    nav a { font-family: var(--ff-mono); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; padding: .85rem 1.2rem; color: var(--ink-2); border-right: 1px solid var(--rule); white-space: nowrap; transition: background .15s, color .15s; }
+    nav a:hover, nav a.active { background: var(--accent); color: #fff; }
+
+    /* ── AD SLOTS ── */
+    .ad-banner { background: var(--paper-2); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); text-align: center; padding: .9rem 1rem; font-family: var(--ff-mono); font-size: .55rem; letter-spacing: .1em; color: var(--ink-3); }
+    .ad-unit { display: inline-block; min-width: 728px; min-height: 90px; background: var(--paper-3); border: 1px dashed var(--rule); line-height: 90px; color: var(--ink-3); }
+    @media (max-width: 780px) { .ad-unit { min-width: 320px; min-height: 50px; line-height: 50px; } }
+
+    /* ── LAYOUT ── */
+    .page-wrap { max-width: var(--max); margin: 0 auto; padding: 2.5rem 1rem; display: grid; grid-template-columns: minmax(0, var(--col-main)) 1fr; gap: 3rem; align-items: start; }
+    @media (max-width: 900px) { .page-wrap { grid-template-columns: 1fr; } }
+
+    /* ── LABELS ── */
+    .label { display: inline-block; font-family: var(--ff-mono); font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; background: var(--accent); color: #fff; padding: .18rem .55rem; margin-bottom: .7rem; }
+    .label.how-to  { background: #1a6b4a; }
+    .label.opinion { background: #1a5080; }
+    .label.feature { background: var(--gold); color: var(--ink); }
+
+    /* ── HERO ── */
+    .hero { border-bottom: 3px double var(--rule); padding-bottom: 2rem; margin-bottom: 2rem; }
+    .hero h1 { font-family: var(--ff-head); font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 900; line-height: 1.13; letter-spacing: -.025em; margin-bottom: .8rem; }
+    .hero h1 a:hover { color: var(--accent); }
+    .hero .deck { font-size: 1.05rem; font-style: italic; color: var(--ink-2); line-height: 1.6; margin-bottom: 1rem; }
+    .hero-img-block { width: 100%; aspect-ratio: 16/6; background: linear-gradient(135deg, #0f1923 0%, #1e2f40 45%, #0d1820 100%); position: relative; overflow: hidden; margin: 1.2rem 0; }
+    .hero-img-block::before { content: '10110100 00011101 11001010 01010111\A01010110 11010001 00101010 01001111\A00010101 10111010 01110001 11010011\A10001011 00110101 10111010 00101101'; white-space: pre; position: absolute; inset: 0; padding: 1.5rem; font-family: var(--ff-mono); font-size: .75rem; line-height: 2.5; color: rgba(255,255,255,.05); letter-spacing: .1em; }
+    .hero-img-block::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 25% 50%, rgba(192,57,43,.16) 0%, transparent 60%), radial-gradient(ellipse at 80% 30%, rgba(26,106,180,.12) 0%, transparent 55%); }
+    .byline { font-family: var(--ff-mono); font-size: .6rem; letter-spacing: .1em; color: var(--ink-3); text-transform: uppercase; }
+    .byline strong { color: var(--ink-2); }
+
+    /* ── SECTION RULE ── */
+    .section-rule { display: flex; align-items: center; gap: 1rem; margin: 2rem 0 1.4rem; }
+    .section-rule span { font-family: var(--ff-mono); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; }
+    .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+    /* ── ARTICLE LIST ── */
+    .article-list { display: flex; flex-direction: column; }
+    .article-item { display: grid; grid-template-columns: 1fr 120px; gap: 1.2rem; padding: 1.4rem 0; border-bottom: 1px solid var(--rule); align-items: start; }
+    @media (max-width: 500px) { .article-item { grid-template-columns: 1fr; } }
+    .article-item h3 { font-family: var(--ff-head); font-size: 1.1rem; font-weight: 700; line-height: 1.3; margin-bottom: .3rem; letter-spacing: -.01em; }
+    .article-item h3 a:hover { color: var(--accent); }
+    .article-item .snippet { font-size: .83rem; color: var(--ink-2); line-height: 1.6; }
+    .article-thumb { aspect-ratio: 4/3; overflow: hidden; }
+    .thumb-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: .5rem; color: rgba(255,255,255,.35); }
+    .t1{background:linear-gradient(135deg,#0d2137,#1a4a6b)} .t2{background:linear-gradient(135deg,#1a2412,#2a4a1a)} .t3{background:linear-gradient(135deg,#2a1212,#5a1e1e)} .t4{background:linear-gradient(135deg,#1a1228,#3a2060)} .t5{background:linear-gradient(135deg,#12241a,#1e5a3e)} .t6{background:linear-gradient(135deg,#1e1a0a,#4a3a08)} .t7{background:linear-gradient(135deg,#0a1e2a,#0a3040)} .t8{background:linear-gradient(135deg,#1e0e1e,#3a1240)}
+
+    /* ── MORE ARTICLES GRID ── */
+    .more-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    @media (max-width: 600px) { .more-grid { grid-template-columns: 1fr; } }
+    .grid-card { border-top: 2px solid var(--rule); padding-top: 1rem; }
+    .grid-card h3 { font-family: var(--ff-head); font-size: .98rem; font-weight: 700; line-height: 1.3; margin-bottom: .3rem; }
+    .grid-card h3 a:hover { color: var(--accent); }
+    .grid-card p { font-size: .8rem; color: var(--ink-2); line-height: 1.55; }
+
+    /* ── SIDEBAR ── */
+    .sidebar-ad { background: var(--paper-2); border: 1px solid var(--rule); padding: 1rem; text-align: center; margin-bottom: 2rem; }
+    .sidebar-ad .ad-label { font-family: var(--ff-mono); font-size: .52rem; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; margin-bottom: .5rem; }
+    .sidebar-ad-unit { min-width: 300px; min-height: 250px; background: var(--paper-3); border: 1px dashed var(--rule); display: flex; align-items: center; justify-content: center; font-family: var(--ff-mono); font-size: .58rem; color: var(--ink-3); }
+    .sidebar-widget { margin-bottom: 2rem; }
+    .sidebar-widget h3 { font-family: var(--ff-mono); font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); padding-bottom: .5rem; border-bottom: 2px solid var(--ink); margin-bottom: 1rem; }
+    .trending-list { list-style: none; counter-reset: t; }
+    .trending-list li { counter-increment: t; display: flex; gap: .75rem; padding: .6rem 0; border-bottom: 1px solid var(--rule); font-size: .85rem; line-height: 1.4; }
+    .trending-list li::before { content: counter(t); font-family: var(--ff-head); font-weight: 900; font-size: 1.5rem; color: var(--rule); line-height: 1; flex-shrink: 0; width: 1.4rem; text-align: right; }
+    .trending-list a:hover { color: var(--accent); }
+
+    /* ── CATEGORIES ── */
+    .cat-list { display: flex; flex-direction: column; gap: .1rem; }
+    .cat-item { display: flex; justify-content: space-between; align-items: center; padding: .55rem 0; border-bottom: 1px solid var(--rule); font-size: .85rem; }
+    .cat-item a:hover { color: var(--accent); }
+    .cat-count { font-family: var(--ff-mono); font-size: .6rem; color: var(--ink-3); }
+
+    /* ── NEWSLETTER BOX ── */
+    .newsletter-box { background: var(--ink); color: var(--paper); padding: 1.5rem; margin: 2rem 0; }
+    .newsletter-box h3 { font-family: var(--ff-head); font-size: 1.2rem; margin-bottom: .4rem; }
+    .newsletter-box p { font-size: .82rem; color: #a09890; margin-bottom: 1rem; line-height: 1.6; }
+    .newsletter-box input { width: 100%; padding: .6rem .8rem; font-family: var(--ff-mono); font-size: .75rem; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: var(--paper); margin-bottom: .6rem; }
+    .newsletter-box input::placeholder { color: #6b6358; }
+    .newsletter-box button { width: 100%; padding: .65rem; font-family: var(--ff-mono); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; background: var(--accent); color: #fff; border: none; cursor: pointer; transition: background .15s; }
+    .newsletter-box button:hover { background: var(--accent-2); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); color: #7a7268; text-align: center; padding: 2rem 1rem; font-family: var(--ff-mono); font-size: .6rem; letter-spacing: .1em; border-top: 4px solid var(--accent); }
+    footer a { color: #a09890; }
+    footer a:hover { color: var(--paper); }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .footer-cats { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; font-size: .55rem; color: #4d4540; }
+  </style>
+</head>
+<body>
+
+<!-- ══ MASTHEAD ══ -->
+<header class="masthead">
+  <div class="masthead-kicker">Technology · Security · How-To · Opinion</div>
+  <div class="masthead-title">Tech<span>Pulse</span></div>
+  <div class="masthead-tagline">Sharp takes on the tools shaping tomorrow</div>
+  <div class="masthead-date" id="today-date"></div>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="active">Home</a>
+    <a href="#">AI &amp; Machine Learning</a>
+    <a href="#">How-To Guides</a>
+    <a href="#">Cybersecurity</a>
+    <a href="#">Gadgets</a>
+    <a href="#">Developer Tools</a>
+    <a href="#">Opinion</a>
+    <a href="#">Self-Hosting</a>
+  </div>
+</nav>
+
+<!-- ══ TOP LEADERBOARD AD ══ -->
+<div class="ad-banner">
+  <div class="ad-unit">Advertisement · 728×90 Leaderboard</div>
+  <!--
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+</div>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="page-wrap">
+
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <!-- HERO -->
+    <article class="hero">
+      <span class="label">Security</span>
+      <h1><a href="articles/passkeys.html">The End of the Password Era: Passkeys Just Hit Critical Mass</a></h1>
+      <p class="deck">Apple, Google, and Microsoft have quietly made passwords optional for over 90% of consumer accounts. The credential-theft industry just had its foundation knocked out. Here's what that actually means.</p>
+      <div class="hero-img-block"></div>
+      <p class="byline">By <strong>Staff Writer</strong> &nbsp;·&nbsp; <span id="hero-date"></span> &nbsp;·&nbsp; 8 min read</p>
+      <p style="margin-top:1rem;font-size:.9rem;color:var(--ink-2);line-height:1.75">The transition has been slower than anyone hoped, but 2024 and 2025 quietly crossed thresholds that make the old username-and-password model look genuinely obsolete. Passkeys — cryptographic credentials tied to your device's biometrics — now work seamlessly across every major OS. The phishing industry is, for the first time, facing a threat it can't easily adapt around.</p>
+    </article>
+
+    <!-- SECTION: LATEST -->
+    <div class="section-rule"><span>Latest Stories</span></div>
+    <div class="article-list">
+
+      <article class="article-item">
+        <div>
+          <span class="label how-to">How-To</span>
+          <h3><a href="articles/local-ai-laptop.html">How to Run a Local AI on Your Laptop (No Cloud Required)</a></h3>
+          <p class="snippet">Ollama, LM Studio, and a handful of open-weights models make it easy to run LLaMA-3, Mistral, or Phi-4 entirely on your own hardware. Setup takes 20 minutes.</p>
+          <p class="byline" style="margin-top:.5rem">9 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t1">AI/LOCAL</div></div>
+      </article>
+
+      <article class="article-item">
+        <div>
+          <span class="label opinion">Opinion</span>
+          <h3><a href="articles/rust-2026.html">Why Every Developer Should Learn Rust in 2026</a></h3>
+          <p class="snippet">It's in the Linux kernel, in Windows, in Android, and in US government security guidance. At what point does Rust stop being "the future" and become the present you should already know?</p>
+          <p class="byline" style="margin-top:.5rem">7 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t4">RUST</div></div>
+      </article>
+
+      <article class="article-item">
+        <div>
+          <span class="label how-to">How-To</span>
+          <h3><a href="articles/tailscale-vpn.html">Set Up a Tailscale VPN in 10 Minutes — Even on Your Router</a></h3>
+          <p class="snippet">Tailscale's mesh VPN turns your devices into a private network with almost zero configuration. This walkthrough covers laptops, phones, and OpenWrt routers.</p>
+          <p class="byline" style="margin-top:.5rem">7 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t5">VPN</div></div>
+      </article>
+
+      <article class="article-item">
+        <div>
+          <span class="label">Security</span>
+          <h3><a href="articles/signal-vs-telegram.html">Signal vs. Telegram: Which Is Actually Private?</a></h3>
+          <p class="snippet">Everyone calls Telegram private. Almost nobody has read the fine print. Here's an honest comparison of the two apps' actual security models — not the marketing copy.</p>
+          <p class="byline" style="margin-top:.5rem">6 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t3">SECURITY</div></div>
+      </article>
+
+      <article class="article-item">
+        <div>
+          <span class="label feature">Feature</span>
+          <h3><a href="articles/chip-reshoring.html">Inside the Great Chip Reshoring: Is the TSMC Arizona Bet Paying Off?</a></h3>
+          <p class="snippet">Two years into production at Fab 21 — yields, the workforce friction, the geopolitical math, and whether American-made silicon is actually competitive.</p>
+          <p class="byline" style="margin-top:.5rem">9 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t2">CHIPS</div></div>
+      </article>
+
+      <article class="article-item">
+        <div>
+          <span class="label opinion">Opinion</span>
+          <h3><a href="articles/open-source-ai.html">The Open-Source AI Race Nobody Is Covering</a></h3>
+          <p class="snippet">While the press obsesses over GPT-5 and Gemini Ultra, a quieter revolution is happening in community-maintained models that run without a subscription or a data-sharing agreement.</p>
+          <p class="byline" style="margin-top:.5rem">8 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t7">AI</div></div>
+      </article>
+
+    </div>
+
+    <!-- SECTION: HOW-TOS -->
+    <div class="section-rule" style="margin-top:2.5rem"><span>How-To Guides</span></div>
+    <div class="more-grid">
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/backup-guide.html">Back Up Your Digital Life This Weekend</a></h3>
+        <p>The 3-2-1 strategy with Restic, Backblaze B2, and a test restore you should run right now.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/selfhost-nextcloud.html">A Beginner's Guide to Self-Hosting Nextcloud</a></h3>
+        <p>Your own Dropbox + Google Calendar on a $6/month VPS. The AIO installer makes it one command.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/homelab-beginners.html">Your First Homelab: What to Buy, What to Skip</a></h3>
+        <p>Start with a Raspberry Pi 5. Run Pi-hole, Jellyfin, and Home Assistant. Don't buy a rack server first.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/pi-hole-guide.html">How Pi-hole Works (And Why Your Network Needs One)</a></h3>
+        <p>Network-wide ad blocking at the DNS level. Covers every device — your TV, your phone, your thermostat.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/home-assistant-guide.html">Home Assistant: Take Back Control of Your Smart Home</a></h3>
+        <p>3,000+ integrations, fully local, no manufacturer cloud required. Here's the practical setup guide.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/docker-beginners.html">Docker for Beginners: What It Is and Why Developers Love It</a></h3>
+        <p>Containers explained without jargon, with a real Dockerfile and docker-compose.yml to get you started.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/linux-terminal-basics.html">Linux Terminal Commands You'll Actually Use</a></h3>
+        <p>Not a dictionary — just the 20-odd commands that come up every single day when you're working in a shell.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/wireguard-vs-openvpn.html">WireGuard vs. OpenVPN: Which Should You Actually Use?</a></h3>
+        <p>WireGuard is faster and simpler. OpenVPN survives more restrictive networks. Here's how to pick.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/cloudflare-dns-privacy.html">Change Your DNS to 1.1.1.1 — It Takes Two Minutes</a></h3>
+        <p>Your ISP logs every domain you look up. Cloudflare's free resolver is faster and doesn't. Here's how to switch.</p>
+      </div>
+      <div class="grid-card">
+        <span class="label how-to">How-To</span>
+        <h3><a href="articles/chrome-ram.html">How to Stop Chrome from Eating Your RAM</a></h3>
+        <p>Memory Saver, extension pruning, and the nuclear option — switching to a Chromium fork that's less greedy.</p>
+      </div>
+    </div>
+
+    <!-- SECTION: GADGETS & MORE -->
+    <div class="section-rule" style="margin-top:2.5rem"><span>Gadgets &amp; Reviews</span></div>
+    <div class="article-list">
+      <article class="article-item">
+        <div>
+          <span class="label">Gadgets</span>
+          <h3><a href="articles/mechanical-keyboards.html">The Best Budget Mechanical Keyboards, Actually Tested</a></h3>
+          <p class="snippet">Five keyboards in the $40–$90 range, each used for a week. The Keychron V1 wins. Here's why, and what comes close.</p>
+          <p class="byline" style="margin-top:.5rem">6 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t6">KEYS</div></div>
+      </article>
+      <article class="article-item">
+        <div>
+          <span class="label">Gadgets</span>
+          <h3><a href="articles/usb4-explained.html">USB4 v2 Is Here — and Nobody Can Tell the Cables Apart</a></h3>
+          <p class="snippet">80Gbps over a cable identical to the one from 2018. A buyer's guide to the USB spec mess in 2026.</p>
+          <p class="byline" style="margin-top:.5rem">5 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t8">USB4</div></div>
+      </article>
+      <article class="article-item">
+        <div>
+          <span class="label">Developer Tools</span>
+          <h3><a href="articles/ai-code-editors.html">GitHub Copilot vs. Cursor vs. Codeium: Which AI Coding Tool Is Worth It?</a></h3>
+          <p class="snippet">Three tools, several months of daily use, an honest breakdown. The gap between a good setup and a mediocre one is large enough to matter professionally.</p>
+          <p class="byline" style="margin-top:.5rem">7 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t4">CODE</div></div>
+      </article>
+      <article class="article-item">
+        <div>
+          <span class="label opinion">Opinion</span>
+          <h3><a href="articles/why-linux-matters.html">Linux on the Desktop Is Finally a Serious Option</a></h3>
+          <p class="snippet">I spent three months running Fedora as my only OS. Gaming via Proton, hardware support, what works, what doesn't, and the one reason I switched back.</p>
+          <p class="byline" style="margin-top:.5rem">7 min read</p>
+        </div>
+        <div class="article-thumb"><div class="thumb-bg t5">LINUX</div></div>
+      </article>
+    </div>
+
+  </div><!-- /main col -->
+
+  <!-- SIDEBAR -->
+  <aside>
+
+    <!-- Ad 1 -->
+    <div class="sidebar-ad">
+      <div class="ad-label">Advertisement</div>
+      <div class="sidebar-ad-unit">300×250 Medium Rectangle</div>
+      <!--
+      <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
+
+    <!-- Trending -->
+    <div class="sidebar-widget">
+      <h3>Trending</h3>
+      <ol class="trending-list">
+        <li><a href="articles/rust-2026.html">Why every developer should learn Rust in 2026</a></li>
+        <li><a href="articles/local-ai-laptop.html">Run a local AI model on your laptop</a></li>
+        <li><a href="articles/signal-vs-telegram.html">Signal vs. Telegram: the real answer</a></li>
+        <li><a href="articles/mechanical-keyboards.html">Best budget mechanical keyboards, tested</a></li>
+        <li><a href="articles/homelab-beginners.html">Your first homelab: what to buy</a></li>
+        <li><a href="articles/backup-guide.html">Back up your digital life this weekend</a></li>
+      </ol>
+    </div>
+
+    <!-- Categories -->
+    <div class="sidebar-widget">
+      <h3>Categories</h3>
+      <div class="cat-list">
+        <div class="cat-item"><a href="#">How-To Guides</a><span class="cat-count">10</span></div>
+        <div class="cat-item"><a href="#">Security &amp; Privacy</a><span class="cat-count">4</span></div>
+        <div class="cat-item"><a href="#">Opinion</a><span class="cat-count">4</span></div>
+        <div class="cat-item"><a href="#">AI &amp; Machine Learning</a><span class="cat-count">3</span></div>
+        <div class="cat-item"><a href="#">Gadgets</a><span class="cat-count">2</span></div>
+        <div class="cat-item"><a href="#">Developer Tools</a><span class="cat-count">2</span></div>
+        <div class="cat-item"><a href="#">Features</a><span class="cat-count">1</span></div>
+      </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter-box">
+      <h3>Stay Sharp</h3>
+      <p>Weekly roundup of the most useful tech how-tos and analysis. No noise, no sponsored content.</p>
+      <input type="email" placeholder="your@email.com">
+      <button type="button">Subscribe</button>
+    </div>
+
+    <!-- Ad 2 -->
+    <div class="sidebar-ad">
+      <div class="ad-label">Advertisement</div>
+      <div class="sidebar-ad-unit" style="min-height: 600px; align-items: center;">300×600 Half Page</div>
+      <!--
+      <ins class="adsbygoogle" style="display:block;width:300px;height:600px"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
+
+  </aside>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-cats">
+    <span>How-To Guides</span><span>·</span>
+    <span>AI &amp; ML</span><span>·</span>
+    <span>Security</span><span>·</span>
+    <span>Developer Tools</span><span>·</span>
+    <span>Gadgets</span><span>·</span>
+    <span>Opinion</span>
+  </div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Advertise</a>
+    <a href="#">Contact</a>
+    <a href="#">RSS</a>
+    <a href="#">Sitemap</a>
+  </div>
+  <p>© <span id="footer-year"></span> TechPulse. All rights reserved.</p>
+  <p style="margin-top:.4rem; color:#3d3830">Built for the curious. Served without paywalls.</p>
+</footer>
+
+<script>
+  const now = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('today-date').textContent = now.toLocaleDateString('en-US', opts).toUpperCase();
+  document.getElementById('hero-date').textContent = now.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('footer-year').textContent = now.getFullYear();
+</script>
+
+</body>
+</html>
